@@ -19,7 +19,7 @@
 1. Root of the repo contains the main notebook, a customed function py file and a PowerPoint about this project.
 2. The data folder contains source data file, subset of the data file and the Stanford GloVe word embdedding file.
 3. The dump foloder contains saved models and variables.  
-4. The img folder contains jpg and png for this readme and the PowerPoint presentation.
+4. The img folder contains jpg and png for this readme.
 
 ## How to Run This Notebook
 1. Create a local repo by cloning this repo
