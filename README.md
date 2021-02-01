@@ -11,6 +11,7 @@
 * [Model D Model B Plus One More Hidden Layer](#Model-D-Model-B-Plus-One-More-Hidden-Layer)
 * [Model E Model C Plus One More Hidden Layer](#Model-E-Model-C-Plus-One-More-Hidden-Layer)
 * [Model Interpretation](#Model-Interpretation)
+* [Recommendation](#Recommendation)
 * [Conclusion](#Conclusion)
 * [Future Work](#Future-Work)
 * [Dash Applicaiton](#Dash-Applicaiton)
@@ -168,6 +169,13 @@ Model E, by far, produces the best precision score for negative prediction among
 ![png](img/rm_pos_compare.png?raw=true)
 <br></br>
 
+# Recommendation
+1. Customer Services.  Sentiment analysis can help us identify specific issue raised by the customers, either through emails or live feedback.
+2. Market Research.  In market research, we can find out how and what our competitors are doing.  What people like about their products.  Can we include new features in our product line to win the customers over.
+3. Social Media Monitoring.  We know people like to tweet or post what they love or hate a product.  With machine learning, we can wade through massive unstructured data to find out what they commend about our products and services.  Therefore, negative concerns can be addressed quickly.
+4. Product Analytics.  An example of product analytics would be to monitor customers attitude toward the launching of a new product.
+<br></br>
+
 # Conclusion
 In this project, we explore two main types of machine learning models, supervised and unsupervised models, also known as deep learning, to classify positive and negative reviews.
 
@@ -197,15 +205,20 @@ The at "Obtain Data" stage, we reserved 5 set of data.  They are created based o
     <li>Each set contains one office product.  Each successive set will increment by no more than 500 review counts than the previous set.  For instance, set 1 will have 500 reviews or more but less than 1000.  The second set will have 1000 review or more but less than 1500.</li>
     <li>The negative review proportion to total review in the set should fall within 10% to 15%.</li>
 </ul>
-
-These data set can be selected from a dropdown box.  Once user select a set of data, the csv will be loaded into a pandas dataframe in the background and then convert to Dash table.  At the same time the word cloud figures for the data set will be displayed.  To save the page loading time, all the word cloud figures are pre-generated.
+<br></br>
 
 Screenshot of the Dash application when first loaded.
 
-![png](img/rm_dash_sec1.png?raw=true)
+![png](img/rm_dash_tab1.png?raw=true)
 
-Under the "Model Summary" Section, clicking the get prediction button will perform the model.predict on the selected data set in the background.  Upon completion, the page will be updated with classification report and the confusion matrix plot.
+In the "Model Showcase" tab, sample product reviews are provided.  These are data that the model have not been trained or tested on before.  Users can select the provided data set from the drop down menu.
 
-At the bottom of the page is where user can type in their own texts to test the model.  Click the try me button, will perform the prediction on the input text.
+The 'Get Prediction' button, allows user to fit the data to the model.  The prediction results will be appended to the selected data set and displayed in the 'Actual vs Prediction' pane.  The precision score of the model prediction will be plotted in the 'Precision Score' Pane.
+<br></br>
 
-![png](img/rm_single_pred.png?raw=true)
+![png](img/rm_dash_tab2.png?raw=true)
+
+In the "Sand box" tab, users can type in their own review or copy and paste from external sources to get a prediction from the model.
+
+Below the 'Single Prediction' section, users can upload csv file and let the model generates the labels/predictions.  Results will be shown under the 'Upload File Prediction Result' pane.  If a label is provided in the upload file, the precision score will be charted as well.
+

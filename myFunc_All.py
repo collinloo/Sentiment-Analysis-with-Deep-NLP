@@ -344,7 +344,7 @@ def create_df(selected_fn):
     
     # check review text column that contain no texts and only spaces
     no_texts = []
-    for ind, asin, review, lable in df.itertuples():
+    for ind, asin, review, label in df.itertuples():
         if type(review) == str:
             if review.isspace():
                 no_texts.append(ind)
@@ -454,54 +454,6 @@ def get_pred(df, nlp, tokenizer):
 
     return pred_label
 
-def plot_confmatx(label, pred, df=None):
-    '''
-    Signature:  plot_confmatx(label=None, pred=None, df=None)
-    Docstring:  Return plotly figure of sklearn confusion matrix
-    Parameters: label: list/arrary, the label column
-                pred: list/array, model prediction
-                df: dataframe
-    '''
-     # plot confusion matrix
-    z = np.round(confusion_matrix(label, pred, normalize='true'), 3)
-    x = ['neg pred', 'pos pred']
-    y = ['neg actual', 'pos actual']
-
-    # set up figure 
-    fig = ff.create_annotated_heatmap(z, x=x, y=y, colorscale='Blues')
-
-    # set font size of z values
-    for i in range(len(fig.layout.annotations)):
-        fig.layout.annotations[i].font.size = 16
-
-    fig.update_layout(margin=dict(l=25, r=5, t=2, b=45), height= 340, width=340,
-                     hovermode=False)
-
-    # move xaxis label to bottom
-    fig.layout.xaxis.update(side='bottom')
-    # add custom xaxis title
-    fig.add_annotation(dict(font=dict(color="black",size=13),
-                        x=0.5,
-                        y=-0.15,
-                        showarrow=False,
-                        text="Predicted Value",
-                        xref="paper",
-                        yref="paper",
-                       ))
-
-    # add custom yaxis title
-    fig.add_annotation(dict(font=dict(color="black",size=13),
-                        x=-0.15,
-                        y=0.5,
-                        showarrow=False,
-                        text="Actual Value",
-                        textangle=-90,
-                        xref="paper",
-                        yref="paper"
-                       ))
-    
-    return fig
-
 
 def get_single_pred(review, nlp, tokenizer):
     '''
@@ -531,3 +483,177 @@ def get_single_pred(review, nlp, tokenizer):
     pred_label = [0 if np.round(x,0) < 0.5 else 1 for x in pred]    
             
     return (pred_label)
+
+
+def plot_dash_precision(df, pred):
+    '''
+    Signature:   plot_precision(df=None, pred=None)
+    Docstring:   Return plot bar chart with model precision score
+    Parameters:  df: panda dataframe
+                 pred: list/arrary, predicted vallues
+    '''
+    precision = pd.DataFrame.from_dict(classification_report(df['label'],
+        pred, output_dict=True)).T
+    precision_t = pd.DataFrame({'model':'Neural Network',
+        '0':precision.iloc[0,0], '1':precision.iloc[1,0]}, index=[0])
+        
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=precision_t.model,
+        y=precision_t['0'],
+        name="negative (0)",
+        marker_color='#F47B4F',
+        text=round(precision_t['0'],2),
+        textposition='auto'
+    ))
+
+    fig.add_trace(go.Bar(
+        x=precision_t.model,
+        y=precision_t['1'],
+        name="positive (1)",
+        marker_color='#6DADF6',
+        text=round(precision_t['1'],2),
+        textposition='auto',
+    ))
+        
+    # set the text on the bar
+    fig.update_traces(textfont_size=20)
+        
+    # update layout
+    fig.update_layout(
+        height=430,
+        width=340,
+        margin=dict(l=40, r=5, t=20, b=20),
+        legend=dict(orientation='h',
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1),
+    )
+        
+    # updata axes
+    fig.update_xaxes(title='<b>Model</b>', title_font={'size':14})
+    fig.update_yaxes(title='<b>Value</b>', title_font={'size':14})
+    
+    return fig
+
+def append_pred(df, pred):
+    '''
+    Sgnature:    plot_precision(df=None, pred=None)
+    Docstring:   return panda dataframe
+    Parameters:  df: panda dataframe
+                 pred: list/arrary, predicted vallues
+    '''
+    
+    # create a copy of the df to append prediction
+    df_comp = df.copy()
+    if (df_comp.columns =='asin').sum() > 0:
+        # drop asin column
+        df_comp.drop(columns=['asin'], inplace=True)
+        # add pred to df
+        df_comp['pred'] = pred
+    else:
+        # add pred to df
+        df_comp['pred'] = pred
+    
+    return df_comp
+
+
+###################################################################################
+################################## Not used #######################################
+###################################################################################
+# def plot_confmatx(label, pred, df=None):
+#     '''
+#     Signature:  plot_confmatx(label=None, pred=None, df=None)
+#     Docstring:  Return plotly figure of sklearn confusion matrix
+#     Parameters: label: list/arrary, the label column
+#                 pred: list/array, model prediction
+#                 df: dataframe
+#     '''
+#      # plot confusion matrix
+#     z = np.round(confusion_matrix(label, pred, normalize='true'), 3)
+#     x = ['neg pred', 'pos pred']
+#     y = ['neg actual', 'pos actual']
+
+#     # set up figure 
+#     fig = ff.create_annotated_heatmap(z, x=x, y=y, colorscale='Blues')
+
+#     # set font size of z values
+#     for i in range(len(fig.layout.annotations)):
+#         fig.layout.annotations[i].font.size = 16
+
+#     fig.update_layout(margin=dict(l=25, r=5, t=2, b=45), height= 340, width=340,
+#                      hovermode=False)
+
+#     # move xaxis label to bottom
+#     fig.layout.xaxis.update(side='bottom')
+#     # add custom xaxis title
+#     fig.add_annotation(dict(font=dict(color="black",size=13),
+#                         x=0.5,
+#                         y=-0.15,
+#                         showarrow=False,
+#                         text="Predicted Value",
+#                         xref="paper",
+#                         yref="paper",
+#                        ))
+
+#     # add custom yaxis title
+#     fig.add_annotation(dict(font=dict(color="black",size=13),
+#                         x=-0.15,
+#                         y=0.5,
+#                         showarrow=False,
+#                         text="Actual Value",
+#                         textangle=-90,
+#                         xref="paper",
+#                         yref="paper"
+#                        ))
+    
+#     return fig
+
+# def parse_contents(contents, filename):
+#     content_type, content_string = contents.split(',')
+
+#     decoded = base64.b64decode(content_string)
+#     try:
+#         if 'csv' in filename:
+#             # Assume that the user uploaded a CSV file
+#             df = pd.read_csv(
+#                 io.StringIO(decoded.decode('utf-8')))
+#         elif 'xls' in filename:
+#             # Assume that the user uploaded an excel file
+#             df = pd.read_excel(io.BytesIO(decoded))
+#     except Exception as e:
+#         print(e)
+#         return html.Div([
+#             'There was an error processing this file.'
+#         ])
+
+#     return html.Div([
+#         dash_table.DataTable(id='user-table',
+#             data=df.to_dict('records'),
+#             columns=[{'name': i, 'id': i} for i in df.columns],
+#             page_size=20,
+#             sort_action ='native',
+#             style_table={'overflowy':'auto'},
+#             style_header=css_tbl_header,
+#             style_cell=css_tbl_cell,
+#             style_data_conditional=css_tbl_condl
+#             )
+#         ], style={'font-family': 'Verdana', 'font-size':'1.4em'})
+
+# def conv_df_dash_tbl(df):
+#     # convert df to dash table
+#     act_pred = html.Div([
+#         dash_table.DataTable(
+#             data = df.to_dict('records'),
+#             columns = [{'name': i, 'id': i} for i in df_comp.columns],
+#             page_size=10,
+#             sort_action ='native',
+#             style_header=css_tbl_header,
+#             style_cell=css_tbl_cell,
+#             style_data_conditional=css_tbl_condl
+#         )
+#     ], style=css_act_pred_output)
+    
+#     return act_pred
