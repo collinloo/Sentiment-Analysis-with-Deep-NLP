@@ -273,6 +273,20 @@ def plot_precision(df, label, label_type, index, color_='red'):
     return fig
 
 
+def plot_clsrpt(df, label_type):
+    '''
+    Signature   plot_clsrpt(df=None, label_type=None)
+    Docstring   return ploty bar chart
+    parameters  df: pandas dataframe
+                label_type: string, positive or negative class type
+    '''
+    fig = px.bar(data_frame=df, x=['precision','recall', 'f1'],
+                 y='model', barmode='group')
+    fig.update_layout(title=f'Models Performance Metrics For {label_type}')
+    
+    return fig
+
+
 ###################################################################################
 #########################  Juputer Dash Section Functions #########################
 ###################################################################################
@@ -288,9 +302,9 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # assign model save file to variable
-model_name = 'dump/model_glv_2.h5'
+model_name = 'dump/model_glv.h5'
 # load saved tokenizer
-# tokenizer = load(open('dump/tokenizer', 'rb'))
+tokenizer = load(open('dump/tokenizer', 'rb'))
 
 def encode_image(img_file):
     '''
@@ -495,7 +509,8 @@ def plot_dash_precision(df, pred):
     precision = pd.DataFrame.from_dict(classification_report(df['label'],
         pred, output_dict=True)).T
     precision_t = pd.DataFrame({'model':'Neural Network',
-        '0':precision.iloc[0,0], '1':precision.iloc[1,0]}, index=[0])
+        '0':precision.iloc[0,2], '1':precision.iloc[1,2]}, index=[0])   #grab f1-score
+#         '0':precision.iloc[0,0], '1':precision.iloc[1,0]}, index=[0])  grab precision
         
     fig = go.Figure()
 

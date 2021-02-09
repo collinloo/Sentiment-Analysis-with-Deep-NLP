@@ -1,11 +1,12 @@
+![png](img/rm_banner.png?raw=true)
+
 # Table of Contents
-* [Repo Structure](#Repo-Structure)
-* [How to Run This Notebook](#How-to-Run-This-Notebook)
+* [Abstract](#Abstract)
 * [Project Summary](#Project-Summary)
 * [Obtain Data](#Obtain-Data)
 * [Clean Data](#Clean-Data)
 * [Explore Data](#Explore-Data)
-* [Model A Linear SVM Model](#Model-A-Linear-SVM-Model)
+* [Model A LinearSVC Model](#Model-A-LinearSVC-Model)
 * [Model B Deep Learning with Self Trained Word Embedding](#Model-B-Deep-Learning-with-Self-Trained-Word-Embedding)
 * [Model C Deep Learning with GloVe](#Model-C-Deep-Learning-with-GloVe)
 * [Model D Model B Plus One More Hidden Layer](#Model-D-Model-B-Plus-One-More-Hidden-Layer)
@@ -15,36 +16,19 @@
 * [Conclusion](#Conclusion)
 * [Future Work](#Future-Work)
 * [Dash Applicaiton](#Dash-Applicaiton)
+* [Repo Structure](#Repo-Structure)
+* [How to Run This Notebook](#How-to-Run-This-Notebook)
 <br></br>
 
-# Repo Structure
-1. Root of the repo contains the main notebook, a customed function py file and a PowerPoint about this project.
-2. The data folder contains source data file, subset of the data file and the Stanford GloVe word embdedding file.
-3. The dump foloder contains saved models and variables.  
-4. The img folder contains jpg and png for this readme.
+# Abstract
+The goal of this project is to develop a machine learning model to perform sentiment analysis to find out what our customers love and don't love about our products and services. As a result, we can make recommended improvements.
+
+Following OSMEN framework, we obtain, clean and analyze the data. Perform necessary texts processing before passing the data to our machine learning models. We will develop a few models based on supervised and unsupervised learning algorithms. These models will be interpreted at the end of the training and validation processes. Model that delivers the best negative sentiment precision score as well as the highest positive sentiment precision score will be adopted and used to build the Dash application, where the model will be put to test with new unseen data.
 <br></br>
-# How to Run This Notebook
-1. Create a local repo by cloning this repo
-2. Required pacakges:
-<ul>
-    <li>dash</li>
-    <li>json</li>
-    <li>gensim</li>
-    <li>nltk</li>
-    <li>numpy</li>
-    <li>pandas</li>
-    <li>ploty</li>
-    <li>python > 3.7</li>
-    <li>sklearn</li>
-    <li>spacy</li>
-    <li>tensorflow</li>
-</ul>
-3. To execute the cells in the notebook with the saved data, proceed to section 5 'Clean Data' and select from the top menu 'Cell > Run All Below' command.
-<br></br>  
 
 # Project Summary
 ## Business Case
-The purpose of this project is to produce a machine learning sentiment analysis model to aid in product analysis.  With the machine learning model, we can identify customer needs  and sentiment.  In addition, competitors analysis can be performed on similar products or services.  As a result, recommendations can be made accordingly.
+The purpose of this project is to produce a machine learning sentiment analysis model to aid in customer services, market research, social media monitoring and product analytics.  The goal in these four areas are the same, that is to leverage machine learning model to identify customer needs and sentiment. As a result, corrective actions can be taken to address the issues.
 
 ## Project Approach
 The model development process will adhere to the OSEMN framework where data are obtained, cleaned and analyzed.  There after we will create two mian types of machine learning models, namely supervised and unsupervised.  At the end of the training and validation process, we will interpret the results and select the best model based on their precision scores.
@@ -71,7 +55,7 @@ Before generating the word cloud figure, the Spacy default stop was tweaked beca
 ![png](img/rm_wrd_cld.png?raw=true)
 <br></br>
 
-# Model A Linear SVM Model
+# Model A LinearSVC Model
 1.  Create a new copy of the dataframe.
 2.  Clean the review texts by removing:
     <ul>
@@ -91,7 +75,10 @@ Before generating the word cloud figure, the Spacy default stop was tweaked beca
 
 ![png](img/rm_modelA_results.png?raw=true)
 
-The grid search process takes about 2.5 hours to run.  The precision score for positive prediction is about 0.98.  As for the precision score for negative prediction, the model guesses it right  about 83% at a time.  Given the class imbalance in the data set, which is about 12% of the testing data, the result is more than adequate.
+### Observation
+1. The grid search process takes about 2.5 hours to run.
+2. Both the precision and the recall score for both true positive and true negative predictions are more than satisfactory, with both type of metrics close to 90% and above.
+3. It is worth mentioning that the true negative precision and recall scores are quite impressive, given the inherent class imbalance nature of our target.  
 <br></br>
 
 # Model B Deep Learning with Self Trained Word Embedding
@@ -113,7 +100,10 @@ The grid search process takes about 2.5 hours to run.  The precision score for p
 
 ![png](img/rm_modelB_results.png?raw=true)
 
-The precision score for negative prediction is much lower than model A, .807 vs .834.  However, this model only takes less than 10 minutes to train.  Both model precision scores are very close to each other.
+### Observation
+1. The precision score for true negative is substantially lower than Model A, .8071 vs .8341.
+2. The true positive precision score is very close to Model A, 09748 vs .9815.
+3. This model took less than 10 minutes to set up while the Model A took close to 2.5 hrs. Model B's results are more than satisfactory.
 <br></br>
 
 # Model C Deep Learning with GloVe
@@ -132,7 +122,10 @@ The precision score for negative prediction is much lower than model A, .807 vs 
 
 ![png](img/rm_modelC_results.png?raw=true)
 
-The precision score for negative prediction is higher by 4% as compared to model B, .848 vs .807.  The precision score for positive prediction are almost identical for both model B and C.
+### Observations
+1. This model with the pretrained word vectors has the highest true negative precision score of .8432, while Model A and B come in at .8341 and respectively
+2. In term of the true positive prediction precision score, it is on par with the other two models.
+3. The recall scores from Model B and C are almost identical.
 <br></br>
 
 # Model D Model B Plus One More Hidden Layer
@@ -144,7 +137,9 @@ This step involves fine tuning model B by introducing one additional layer with 
 
 ![png](img/rm_modelD_results.png?raw=true)
 
-By adding one more hidden layer with 50 neurons, the model precision score for negative prediction improved by 2%, from .807 to .820.  On the flip side, precision score for positive prediction dropped by 1%, from .974 to .964.
+### Observations
+1. The precision score for the true negative label increases by 2% over Model B, which has one less hidden layer.
+2. A significant drop in the true negative recall score when comparing to Model B, .7425 vs .8213.
 <br></br>
 
 # Model E Model C Plus One More Hidden Layer
@@ -156,17 +151,23 @@ Model E Results
 
 ![png](img/rm_modelE_results.png?raw=true)
 
-Model E, by far, produces the best precision score for negative prediction among all the models we have developed.  It can correctly label a true negative 88% at a time while correctly label a true positive at 97% at a time.  For a model that takes less than 10 minutes to train, the result is more than satisfactory.
+### Observations
+1. By far this model produces the highest true negative precision score, .8814. The next higher negative precision score is .8432, which comes from Model C. Both are using the pretrained word vectors.
+2. This model also displays the same behavior as observed in Model D, where the true negative recall score drops below 80%, from .8223 to .7745.
+<br></br>
+
+### Appendix
+Model B and C were tuned with other model training parameters, such as class weight, dropout, flatten layer, RMSprop optimizer. Since they did not improve both models end results, the experiments were not included in this notebook. You can find these tuning experiment in the appendix.ipynb.
 <br></br>
 
 # Model Interpretation
-1. All the models perform equally well in classifying a review correctly, that is when it is a positive review it will not label it as a negative review and vise versa.
-2. Model E is considered more superior because of its high precision in predicting true negative label, which is our main focus.
-3. We will used Model E as our featured model in building the Dash application, which will be use to test new unseen reviews that we set aside at the very begin of this notebook.
+1. All the models perform equally well in classifying a true positive, either in precision or recall.
+2. Model A has the highest performance scores. However, since the whole process to set up the SVC is substantially longer than the neural network, we will only consider selecting the best among the neural network models. Model C has the highest f1-score, which mean it is performing well in both precision and recall.
+3. We will used Model C as our featured model in building the Dash application, which will be use to test new unseen reviews that we set aside at the very begin of this notebook.
 
-![png](img/rm_neg_compare.png?raw=true)
+![png](img/rm_clsrpt_0.png?raw=true)
 
-![png](img/rm_pos_compare.png?raw=true)
+![png](img/rm_clsrpt_1.png?raw=true)
 <br></br>
 
 # Recommendation
@@ -179,26 +180,26 @@ Model E, by far, produces the best precision score for negative prediction among
 # Conclusion
 In this project, we explore two main types of machine learning models, supervised and unsupervised models, also known as deep learning, to classify positive and negative reviews.
 
-Model A belongs to the supervised branch. Although there are other type of modeling in supervised branch, such as logistic regression and random forest. We went with the Support Vector Machines (SVM) model for no particular reason, other than needing a base model to compare the results from the unsupervised models.
+Model A belongs to the supervised branch. Although there are other type of modeling in supervised branch, such as logistic regression and random forest. We went with the Support Vector Machines (SVC) model for no particular reason, other than needing a base model to compare the results from the unsupervised models.
 
-Through the help of grid search, we were able to develop a decent SVM model that yields a precision score of 0.8341 for predicting the negative label and a precision score of 0.9815 for predicting the positive label. This model produces the highest positive prediction precision score among all the models. However, we have to keep in mind that the model took about 2.5 hours to train.
+Through the help of grid search, we were able to develop a decent SVC model that yields a precision score of 0.8341 for predicting the negative label and a precision score of 0.9815 for predicting the positive label. This model produces the highest positive prediction precision score among all the models. However, we have to keep in mind that the model took about 2.5 hours to train.
 
-In the deep learning models area, we endeavored to train our own word vectors and compare the results to another model that uses a pretrained word vector from Stanford, called GloVe. With the main focus on the negative label precision, it is evident that Model C with the pretrained word vector perform very well over our self-trained word vectors Model B (0.8486 vs 0.8071 for negative label precision score).
+In the deep learning models area, we endeavored to train our own word vectors and compare the results to another model that uses a pretrained word vector from Stanford, called GloVe. It is evident that Model C with the pretrained word vector perform very well over our self-trained word vectors Model B, with the true negative f1-score of .835 vs .814.
 
-Next we fine tuned both Model B and C by introducing an additional hidden layer with 50 neurons. We see significant improvements in both models, regardless the type of word vectors used in the embedding layers. Model D (Model B with additional layer) yields a true negative precision score of .8202. Model E (Model C with additional layer) yields a true negative precision score of .8814. The difference in the true positive precision from both models are negligible.
+Next we fine tuned both Model B and C by introducing an additional hidden layer with 50 neurons. Both model D and E show a decrease in the true negative f1-score, compared to Model C. One the other hand, the true positive f1-score improved marginally.
 
-Model E will be deployed in our Dash application, where new unseen reviews will be put through the test to how well our model performances.
+Model C will be deployed in our Dash application, where new unseen reviews will be put through the test to how well our model performances.
 <br></br>
 
 # Future Work
-1. Try out other supervised learning models.
-2. Employ alternate pretrained word vectors, such as Google's Word2Vec.
-3. Increase the word vectors dimension from 100 to 150 and 200.
-4. Add more hidden layers to the network since we did see an improvement to the precision score once we add a second hidden layer.
+1. Try out other supervised learning models, such as Logistic Regression or Random Forest. To see how well these model will measure up to Support Vector Machine model.
+2. Employ alternate pretrained word vectors, such as Google's Word2Vec. Word2Vec and GloVe are trained based on different technique. The former uses shallow feedforward neural network while the latter uses matrix factorization. Thus it is worth exploring Word2Vec and see how it can improve our nueral network model.
+3. Increase the word vectors dimension from 100 to 150 and 200 as more dimension can store more information.
+4. Add more hidden layer to the network since we did see an improvement to the precision score once we add a second hidden layer.
 <br></br>
 
 # Dash Applicaiton
-The Dash application is built with Jupyter Dash and currently only runs locally.
+The Dash application is built with Jupyter Dash and currently only runs locally.  Alternatively, you may run with app with the command "python app.py" at a console.  The app.py is built with Dash.
 
 The at "Obtain Data" stage, we reserved 5 set of data.  They are created based on the following rules:
 <ul>
@@ -222,3 +223,27 @@ In the "Sand box" tab, users can type in their own review or copy and paste from
 
 Below the 'Single Prediction' section, users can upload csv file and let the model generates the labels/predictions.  Results will be shown under the 'Upload File Prediction Result' pane.  If a label is provided in the upload file, the precision score will be charted as well.
 
+# Repo Structure
+1. Root of the repo contains the main notebook, a customed function py file and a PowerPoint about this project.
+2. The data folder contains source data file, subset of the data file and the Stanford GloVe word embdedding file.
+3. The dump foloder contains saved models and variables.  
+4. The img folder contains jpg and png for this readme.
+<br></br>
+# How to Run This Notebook
+1. Create a local repo by cloning this repo
+2. Required pacakges:
+<ul>
+    <li>dash</li>
+    <li>json</li>
+    <li>gensim</li>
+    <li>nltk</li>
+    <li>numpy</li>
+    <li>pandas</li>
+    <li>ploty</li>
+    <li>python > 3.7</li>
+    <li>sklearn</li>
+    <li>spacy</li>
+    <li>tensorflow</li>
+</ul>
+3. To execute the cells in the notebook with the saved data, proceed to section 5 'Clean Data' and select from the top menu 'Cell > Run All Below' command.
+<br></br>
