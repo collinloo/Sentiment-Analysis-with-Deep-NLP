@@ -199,7 +199,7 @@ Model C will be deployed in our Dash application, where new unseen reviews will 
 <br></br>
 
 # Dash Applicaiton
-The Dash application is built with Jupyter Dash and currently only runs locally.  Alternatively, you may run with app with the command "python app.py" at a console.  The app.py is built with Dash.
+The Dash application is built with Jupyter Dash and currently only runs locally.  Alternatively, you may run with app with the command "python app.py" at a console.  The app.py is built with Dash, as such you don't need to run this notebook in order to run the Dash application.
 
 The at "Obtain Data" stage, we reserved 5 set of data.  They are created based on the following rules:
 <ul>
