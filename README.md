@@ -23,15 +23,15 @@
 # Abstract
 The goal of this project is to develop a machine learning model to perform sentiment analysis to find out what our customers love and don't love about our products and services. As a result, we can make recommended improvements.
 
-Following OSMEN framework, we obtain, clean and analyze the data. Perform necessary texts processing before passing the data to our machine learning models. We will develop a few models based on supervised and unsupervised learning algorithms. These models will be interpreted at the end of the training and validation processes. Model that delivers the best negative sentiment precision score as well as the highest positive sentiment precision score will be adopted and used to build the Dash application, where the model will be put to test with new unseen data.
+Following OSMEN framework, we obtain, clean and analyze the data. Perform necessary texts processing before passing the data to our machine learning models. We will develop a few models based on supervised algorithms. These models will be interpreted at the end of the training and validation processes. Model that delivers the best f1-score will be adopted and used to build the Dash application, where the model will be put to test with new unseen data.
 <br></br>
 
 # Project Summary
 ## Business Case
-The purpose of this project is to produce a machine learning sentiment analysis model to aid in customer services, market research, social media monitoring and product analytics.  The goal in these four areas are the same, that is to leverage machine learning model to identify customer needs and sentiment. As a result, corrective actions can be taken to address the issues.
+The purpose of this project is to produce a sentiment analysis machine learning model to aid in customer services, market research, social media monitoring and product analytics. The goal in these four areas are the same, that is to leverage machine learning model to identify customer needs and sentiment. As a result, corrective actions can be taken to address the issues.
 
 ## Project Approach
-The model development process will adhere to the OSEMN framework where data are obtained, cleaned and analyzed.  There after we will create two mian types of machine learning models, namely supervised and unsupervised.  At the end of the training and validation process, we will interpret the results and select the best model based on their precision scores.
+The model development process will adhere to the OSEMN framework where data are obtained, cleaned and analyzed.  There after we will create two main types of machine learning models, namely Linear Support Vector Classification and deep learning with Natural Language Processing.  At the end of the training and validation process, we will interpret the results and select the best model based on their f1-score.
 
 ## Dash Application
 The final model will be used to build the Dash application where users can select a few sets of sample reviews that are unseen by the model during the model development process.  Furthermore, a sandbox area will be provided for users to input their own sample review to test the model accuracy.
@@ -178,17 +178,17 @@ Model B and C were tuned with other model training parameters, such as class wei
 <br></br>
 
 # Conclusion
-In this project, we explore two main types of machine learning models, supervised and unsupervised models, also known as deep learning, to classify positive and negative reviews.
+In this project, we explore two main types of machine learning models, linear support vector classification and deep learning with natural language processing, to classify positive and negative reviews.
 
-Model A belongs to the supervised branch. Although there are other type of modeling in supervised branch, such as logistic regression and random forest. We went with the Support Vector Machines (SVC) model for no particular reason, other than needing a base model to compare the results from the unsupervised models.
+Although there are other type of modeling in supervised branch, such as logistic regression and random forest. We went with the Support Vector Machines (SVC) model for no particular reason, other than needing a base model to compare the results from the neural network model.
 
-Through the help of grid search, we were able to develop a decent SVC model that yields a precision score of 0.8341 for predicting the negative label and a precision score of 0.9815 for predicting the positive label. This model produces the highest positive prediction precision score among all the models. However, we have to keep in mind that the model took about 2.5 hours to train.
+Through the help of grid search, we were able to develop a decent SVC model that yields a f1-score of 0.851 for predicting the negative label and a f1-score of 0.978 for predicting the positive label. This model produces the highest positive prediction precision score among all the models. However, we have to keep in mind that the model took about 2.5 hours to train.
 
 In the deep learning models area, we endeavored to train our own word vectors and compare the results to another model that uses a pretrained word vector from Stanford, called GloVe. It is evident that Model C with the pretrained word vector perform very well over our self-trained word vectors Model B, with the true negative f1-score of .835 vs .814.
 
 Next we fine tuned both Model B and C by introducing an additional hidden layer with 50 neurons. Both model D and E show a decrease in the true negative f1-score, compared to Model C. One the other hand, the true positive f1-score improved marginally.
 
-Model C will be deployed in our Dash application, where new unseen reviews will be put through the test to how well our model performances.
+Model C will be deployed in our Dash application, where new unseen reviews will be put through the test to how well our model performs.
 <br></br>
 
 # Future Work
